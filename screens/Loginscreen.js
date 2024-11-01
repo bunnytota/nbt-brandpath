@@ -10,7 +10,10 @@ import Logo from '../components/Logo';
 import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
 import Linebutton from '../components/Linebutton';
-
+import { useDispatch } from 'react-redux';
+import { fetchapilogin } from '../Redux/action/myaction';
+import { setValue,setValue2 } from '../Redux/action/myaction';
+import Api from '../components/Api';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   password: yup
@@ -20,14 +23,26 @@ const schema = yup.object().shape({
 });
 
 const Loginscreen = ({navigation}) => {
+
+  const dispatch =useDispatch()
+
   const [showkey, setShowkey] = useState(false);
 
   const formik = useFormik({
     initialValues: { name: '', password: '' },
     validationSchema: schema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async(values, { setSubmitting }) => {
       console.log(values);
-      setSubmitting(false);
+      const { name, password } = values;
+       
+      dispatch(fetchapilogin(name, password));
+      dispatch(setValue(formik.values.name))
+     dispatch(setValue2(formik.values.password))
+     
+     navigation.navigate('Home')
+    
+     setSubmitting(false);
+     
     },
   });
 
