@@ -1,62 +1,59 @@
-import { StyleSheet, Text, View, } from 'react-native'
-
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import SplashScreen from 'react-native-splash-screen'
 import { useEffect } from 'react'
 import { Platform } from 'react-native'
-import Api from './components/Api'
-// Import navigation components
+// import Api from './components/Api'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Changepin from './screens/Changepin'
+
 import Sharedlayout from './components/Sharedlayout'
-import Loginscreen from './screens/Loginscreen'
-import { SafeAreaView } from 'react-native-safe-area-context'
+
 import { Provider } from 'react-redux'
 import store from './Redux/store/store'
-import HomePage from './screens/HomePage'
+import { useSelector } from 'react-redux'
+import AppScreen from './Stack/AppScreens'
+import AuthScreen from './Stack/AuthScreens'
 
 const Stack = createNativeStackNavigator()
-//const isSignedin = false
-const App = () => {
+
+// Create a separate component for the navigation logic
+function AppNavigator() {
+   const { isAuthenticated } = useSelector((state) => state.Auth);
+
   useEffect(() => {
     if (Platform.OS === 'android') SplashScreen.hide();
   }, []);
 
   return (
-    
-    <Provider store ={store}>
     <NavigationContainer>
-      <Stack.Navigator>
-      {/* <Stack.Screen name="Api" component={Api} options={{headerShown:false}} /> */}
-         
-         {/* { isSignedin ?(<>
-           <Stack.Screen name="Home" component={HomePage}  options={{headerShown:false}}/>
-         </>) 
-         
-         :
-         
-         (<>
-         <Stack.Screen name="Login" component={Loginscreen} options={{headerShown:false}} />
-         <Stack.Screen name="Change" component={Changepin} options={{headerShown:false}} /> 
-         </>)
-      } */}
+         {isAuthenticated ? (
+          <>
 
-         <Stack.Screen name="Login" component={Loginscreen} options={{headerShown:false}} />
-         <Stack.Screen name="Change" component={Changepin} options={{headerShown:false}} /> 
-         <Stack.Screen name="Home" component={HomePage}  options={{headerShown:false}}/>
-         <Stack.Screen name="Api" component={Api} options={{headerShown:false}} />
-      </Stack.Navigator>
-      <Sharedlayout />    
-    </NavigationContainer>
+          <AppScreen/>
+          
+          </>
+        ) : (
+          <>
+            <AuthScreen/>           
+          
+          </>
+        )} 
     
-    </Provider>
-  )
+      <Sharedlayout />
+    </NavigationContainer>
+  );
 }
 
-export default App
+// Main App component that provides the Redux store
+const App = () => {
+  return (
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
+  );
+}
 
-const styles = StyleSheet.create({
+export default App;
 
-
-})
+const styles = StyleSheet.create({});

@@ -8,8 +8,6 @@ import {
   TextInput
   
 } from 'react-native';
-
-
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchapilogin} from '../Redux/action/auth'
 import Logo from '../components/Logo';
@@ -18,46 +16,42 @@ import LineargradientCom from '../components/LineargradientCom';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Clock from '../components/Clock'
 import LinearGradient from 'react-native-linear-gradient';
-import { locationrequest,partnerrequest}  from '../Redux/action/auth';
-import { getuserstate } from '../Redux/action/auth';
 
 const HomePage = ({navigation}) => {
 
-
-
- 
-
-
   const [isFocused, setIsFocused] = useState(false);
 
-  const { name, password, user,screen, error, userstate } = useSelector((state) => state.Auth);
+  const { name, password, user,screen, error } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
- 
+  //dispatch(fetchapilogin(name, password)); 
 
+
+
+
+  useEffect(() => {
+    if (name && password) {
+      dispatch(fetchapilogin(name, password));
+    }
+  }, [name, password, dispatch]);
 
 
   const handlenavigation =(screen)=>(
     navigation.navigate(screen)
   )
 
- 
-  console.log(screen); 
+  // Log the screen data to see the API response
+  console.log(screen); // Log the screen data to see the API response
 
-  handlesubmitone  =()=>{
-    navigation.navigate('Location')
-    dispatch(locationrequest())
-  }
-  
-
-  handlesubmittwo =()=>{
-
-    navigation.navigate('Partner')
-    dispatch(partnerrequest())
-  }
-  
   return (
-  
-   
+    // <ScrollView 
+    //   style={styles.container}
+    //   refreshControl={
+    //     <RefreshControl
+    //       refreshing={loading}
+    //       onRefresh={onRefresh}
+    //     />
+    //   }
+    // >
        <ScrollView  >
       <View style={styles.container}>
        
@@ -98,10 +92,6 @@ const HomePage = ({navigation}) => {
          <Text style={[styles.logo,styles.LogoText]}>BrandHub</Text>
          <View style={styles.roundcontainer}>
           <View style={styles.roundedcontent}>
-          
-          <TouchableOpacity
-          onPress={handlesubmitone}
-          >
           <Text style={styles.roundedfont}>
             <FontAwesome
              size={15}
@@ -113,14 +103,6 @@ const HomePage = ({navigation}) => {
 
             Location</Text>
 
-            {userstate && (
-  <Text style={styles.textcolor}>user:{userstate.stationid}</Text>
-)}
-            </TouchableOpacity>
-          
-            <TouchableOpacity
-            onPress={handlesubmittwo}
-            >
           <Text style={styles.roundedfont}>
           <FontAwesome
           size={15}
@@ -129,7 +111,7 @@ const HomePage = ({navigation}) => {
          name='map'
           
           /><Text> </Text>
-             Partner</Text></TouchableOpacity>
+             Partner</Text>
           </View>
          </View>
          <View  style={styles.formContainer}>
@@ -141,7 +123,7 @@ const HomePage = ({navigation}) => {
          />  Hello: <Text style={styles.bold}>{user?.username.charAt(0).toUpperCase() + user.username.slice(1) }</Text></Text>
          
           
-          <Text> 
+          <Text>
             
             <FontAwesome 
          name="clock" size={15} color="seagreen" solid={false}
@@ -195,7 +177,8 @@ const HomePage = ({navigation}) => {
          
        <View style={styles.buttonContainer}>
          <Button
-       
+        //   onPress={formik.handleSubmit}
+        //   isSubmitting={formik.isSubmitting}
           iconName="info"
           value='Version'
         
@@ -203,7 +186,10 @@ const HomePage = ({navigation}) => {
 
 <Button
         
-       
+        //   onPress={formik.handleSubmit}
+        //   isSubmitting={formik.isSubmitting}
+         
+        // onPress={isAuthenticated==false}
         iconName="logout"
           value='Logout'
         
@@ -249,13 +235,6 @@ const HomePage = ({navigation}) => {
 
 const styles = StyleSheet.create({
 
-textcolor:{
-
-  color: 'red'
-
-},
-
-
 
   roundedfont:{
 
@@ -269,7 +248,7 @@ logo:{
   color: 'white',
   marginBottom:20,
   fontSize: 40,
- 
+  //fontWeight: 'bold',
   textAlign: 'center',
   fontFamily: '18 Khebrat Musamim Regular',
 },
@@ -361,7 +340,7 @@ AzureError2:{
     justifyContent: 'center',
     alignItems: 'center',
    
-    height:'100%' 
+    height:'100%' // Replace with your custom background color
   },
  
   title: {
@@ -379,7 +358,7 @@ AzureError2:{
     flexWrap: 'wrap',
     
     
-    
+    // Space out the buttons
     alignItems: 'center',
     justifyContent:'center'
   },
@@ -411,7 +390,7 @@ AzureError2:{
     paddingBottom: 15,
 
    
-  
+    //marginTop: 35,
   } ,
   buttonContainer:{
 

@@ -1,37 +1,46 @@
+
 const initialState = {
-  curry: null,
+  user: null,
   error: null,
-  
-  name: '',
-  password: '',
-  loading: false // Add loading state
+   screen: [],
+  isAuthenticated: false,
+  userstate:'',
+ 
 };
 
-const curryy = (state = initialState, action) => {
+
+
+const Auth = (state = initialState, action) => {
+
+ 
   switch (action.type) {
-    case 'FETCH_API_LOGIN':
-      return { ...state, loading: true, error: null };
+   
     case 'FETCH_API_SUCCESS':
       return { 
         ...state, 
-        curry: action.payload, 
+        user: action.payload.data.result,
+        screen:  action.payload.data.buttons ,
+                              
+        isAuthenticated:true,
         error: null,
-        loading: false 
+        
       };
     case 'FETCH_API_FAIL':
       return { 
         ...state, 
-        curry: null, 
+        user: null, 
+        screen: null,
+        isAuthenticated:false,
         error: action.payload,
-        loading: false 
+       
       };
     case 'SET_VALUE':
       return { ...state, name: action.payload };
     case 'SET_VALUE2':
       return { ...state, password: action.payload };
-    default:
+        default:
       return state;
   }
 };
 
-export default curryy;
+export default Auth;

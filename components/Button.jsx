@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Button = ({ onPress, isSubmitting, value, iconName }) => {
   return (
-    <TouchableOpacity onPress={onPress} disabled={isSubmitting}>
+    <TouchableOpacity onPress={onPress} disabled={isSubmitting}  >
       <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.button}>
         <View style={styles.buttonContent}>
           <Icon name={iconName} size={20} color="#ffff" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -11,8 +11,9 @@ import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
 import Linebutton from '../components/Linebutton';
 import { useDispatch } from 'react-redux';
-import { fetchapilogin } from '../Redux/action/myaction';
-import { setValue,setValue2 } from '../Redux/action/myaction';
+import { fetchapilogin, getuserstate } from '../Redux/action/auth';
+
+import { setValue,setValue2 } from '../Redux/action/auth';
 import Api from '../components/Api';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -24,7 +25,7 @@ const schema = yup.object().shape({
 
 const Loginscreen = ({navigation}) => {
 
-  const dispatch =useDispatch()
+  const dispatch = useDispatch()
 
   const [showkey, setShowkey] = useState(false);
 
@@ -35,11 +36,10 @@ const Loginscreen = ({navigation}) => {
       console.log(values);
       const { name, password } = values;
        
-      dispatch(fetchapilogin(name, password));
-      dispatch(setValue(formik.values.name))
-     dispatch(setValue2(formik.values.password))
+     dispatch(fetchapilogin(name, password));
      
-     navigation.navigate('Home')
+      dispatch(getuserstate(name))
+    
     
      setSubmitting(false);
      
@@ -97,13 +97,14 @@ const Loginscreen = ({navigation}) => {
           isSubmitting={formik.isSubmitting}
           iconName="login"
           value='Login'
+   
         />
 
         <TouchableOpacity onPress={() => navigation.navigate('Change')} style={styles.changePinContainer}>
           <Linebutton value='Change Your PIN' />
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.sharedlayout}><Sharedlayout /></View> */}
+
     </View>
   );
 }
@@ -115,14 +116,14 @@ const styles = StyleSheet.create({
     top: '50%',
     transform: [{ translateY: -12 }],
     marginRight: 5,
-    //marginTop: 12,
+   
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#dcdbdb',
-    height:'100%' // Replace with your custom background color
+    height:'100%' 
   },
   gradient: {
     position: 'absolute',
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     padding: 24,
     zIndex: 10,
     marginBottom: '20%'
-    //marginTop: 35,
+   
   },
   text: {
     fontFamily: '18 Khebrat Musamim Regular',
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 23,
-    width: '100%', // Change from 240 to 100%
+    width: '100%', 
     backgroundColor: '#f0f0f0',
     borderRadius: 24,
     height: 48,
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   input: {
-    //flex: 1,
+    
     paddingBottom: 8,
     fontSize: 18,
     marginLeft: 4,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     borderBottomWidth: 1,
-    borderBottomColor: '#94a3b8', // slate-400
+    borderBottomColor: '#94a3b8', 
     padding: 0,
     margin: 5,
     marginLeft: 6,
@@ -225,14 +226,14 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#d1d5db',
-    //marginHorizontal: ,
+  
     marginLeft: 20,
   },
   changePinLine2: {
     flex: 1,
     height: 1,
     backgroundColor: '#d1d5db',
-    //marginHorizontal: ,
+   
     marginRight: 20,
   },
   changePinText: {
@@ -254,27 +255,27 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     textAlign: 'center',
-    marginTop: -8, // Add this line to reduce the upper padding
-    marginBottom: 8, // Add this line to maintain some space before the next element
-  },
+    marginTop: -8, 
+    marginBottom: 8,},
+
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //width: '50%', // Increase from 70% to 85%
+    
     height: 38,
   },
   otpInput: {
     borderBottomWidth: 1,
-    //borderBottomColor: 'black',
-    width: '11%', // Increase from 16 to 30
+    
+    width: '11%', 
     height: 29,
-    fontSize: 12, // Increase from 10 to 12 for better readability
+    fontSize: 12, 
     textAlign: 'center',
-    //justifyContent:'center',
+    
     padding: 0,
    
     margin: 5,
-    color: 'black', // Add this line to ensure text color is black
+    color: 'black', 
   },
   sharedlayout:{
      position:'absolute',
