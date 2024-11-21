@@ -8,8 +8,6 @@ import {
   TextInput
   
 } from 'react-native';
-
-
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchapilogin} from '../Redux/action/auth'
 import Logo from '../components/Logo';
@@ -22,10 +20,6 @@ import { locationrequest,partnerrequest}  from '../Redux/action/auth';
 import { getuserstate } from '../Redux/action/auth';
 
 const HomePage = ({navigation}) => {
-
-
-
- 
 
 
   const [isFocused, setIsFocused] = useState(false);

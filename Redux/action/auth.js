@@ -6,15 +6,15 @@ export const fetchapilogin = (name,password) => ({
 
 
   
-  export const fetchapisuccessful = (data) => ({
-    type: 'FETCH_API_SUCCESS',
+  export const loginsuccessful = (data) => ({
+    type: 'LOGIN_SUCCESSFUL',
     payload: 
       {data
       }
   });
   
-  export const fetchapifail = (error) => ({
-    type: 'FETCH_API_FAIL',
+  export const loginfail = (error) => ({
+    type: 'LOGIN_FAIL',
     payload: error
   });
   

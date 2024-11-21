@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     
     
     alignItems:'center',
-    backgroundColor: '#dcdbdb',
+    // backgroundColor: '#dcdbdb',
     justifyContent:'center',
     
     

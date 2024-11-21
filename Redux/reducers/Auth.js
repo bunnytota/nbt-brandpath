@@ -2,12 +2,11 @@
 const initialState = {
   user: null,
   error: null,
-   screen: [],
+   screen: null,
   isAuthenticated: false,
   userstate:'',
  
 };
-
 
 
 const Auth = (state = initialState, action) => {
@@ -15,23 +14,30 @@ const Auth = (state = initialState, action) => {
  
   switch (action.type) {
    
-    case 'FETCH_API_SUCCESS':
-      return { 
+    case 'LOGIN_SUCCESSFUL':
+      
+    console.log('API response2:', action.payload.data);
+    return { 
         ...state, 
-        user: action.payload.data.result,
         screen:  action.payload.data.buttons ,
-                              
+        user:    action.payload.data.result,                      
         isAuthenticated:true,
         error: null,
         
       };
-    case 'FETCH_API_FAIL':
-      return { 
+
+
+    case 'LOGIN_FAIL':
+     
+    
+    console.log('apiError:', action.payload.error);
+
+    return { 
         ...state, 
         user: null, 
         screen: null,
         isAuthenticated:false,
-        error: action.payload,
+        error: action.payload.error,
        
       };
     case 'SET_VALUE':

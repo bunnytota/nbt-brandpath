@@ -5,6 +5,6 @@ export const login = (username, pin) =>
   axios.post('mobile/LoginPin', {
     username,
     pin,
-    azureUserName: username
+    azureUserName: 'ayesha.zahid'
   });
 

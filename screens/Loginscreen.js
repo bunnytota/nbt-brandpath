@@ -13,6 +13,8 @@ import Linebutton from '../components/Linebutton';
 import { useDispatch } from 'react-redux';
 import { fetchapilogin, getuserstate } from '../Redux/action/auth';
 
+// import  Snackbar  from '../components/Snackbar';
+
 import { setValue,setValue2 } from '../Redux/action/auth';
 import Api from '../components/Api';
 const schema = yup.object().shape({
@@ -24,6 +26,8 @@ const schema = yup.object().shape({
 });
 
 const Loginscreen = ({navigation}) => {
+
+ 
 
   const dispatch = useDispatch()
 
@@ -103,6 +107,10 @@ const Loginscreen = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate('Change')} style={styles.changePinContainer}>
           <Linebutton value='Change Your PIN' />
         </TouchableOpacity>
+
+        <View>
+          {/* <Snackbar/> */}
+        </View>
       </View>
 
     </View>
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#dcdbdb',
+    //backgroundColor: '#dcdbdb',
     height:'100%' 
   },
   gradient: {

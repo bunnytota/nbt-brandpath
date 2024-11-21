@@ -19,7 +19,9 @@ export const Header = () => {
   const authUsername = AUTH_USERNAME;
   
   const authPassword = AUTH_PASSWORD;
+
   const base64Auth = base64.encode(`${authUsername}:${authPassword}`);
+  
   return `Basic ${base64Auth}`;
 };
 

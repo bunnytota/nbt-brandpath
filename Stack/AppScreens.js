@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import HomePage from '../screens/HomePage'
 import  Dispatch  from '../screens/Dispatch'
 import Goodsin from '../screens/Goodsin'
@@ -9,8 +9,9 @@ import Escalation from '../screens/Escalation'
 import Security from '../screens/Security'
 import Location from '../screens/Location'
 import Partner from '../screens/Partner'
-
-
+import { useSelector } from 'react-redux'
+import { useContext } from 'react'
+import { SnackbarContext } from '../context/Snackbar'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
@@ -18,6 +19,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 const AppScreen = () => {
   
   const App = createNativeStackNavigator()
+
+  const {handleSnackbar} = useContext(SnackbarContext)
+
+const error= useSelector((state)=>state.Auth)
+
+useEffect(()=>{
+if(error)
+  handleSnackbar(error)
+
+},[error])
+
+
+
   return (
    
     <>
