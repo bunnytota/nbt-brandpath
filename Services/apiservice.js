@@ -19,6 +19,10 @@ import { Baseurl, Header} from '../utils/apiconfig'
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    // BASE_URL=https://kv3hbb5j-44392.uks1.devtunnels.ms
+//AUTH_USERNAME=mw_hub
+//AUTH_PASSWORD=y0mh4Dqe0eMk
+
      console.log('Axios Response:',response.error.data)
     return Promise.reject(error);
   
