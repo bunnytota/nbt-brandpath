@@ -36,7 +36,7 @@ function* LoginSaga(action) {
           }),
         );
       } else {
-        yield put(actions.loginsuccessful(response.data));
+        yield put(actions.loginsuccessful(response.data,['Login Successful','you get access']));
         }
       }
      else {

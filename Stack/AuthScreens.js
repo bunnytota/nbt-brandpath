@@ -13,16 +13,23 @@ const AuthScreen = () => {
 
   const {handleSnackbar}  = useContext(SnackbarContext)
 
-  const error= useSelector((state)=>state.Auth)
+  
+  const {error,successmessege}= useSelector((state)=>state.Auth)
   
   useEffect(()=>{
     console.log('Auth state changed:', error);
-    if(error?.error) {
+    if(error) {
       console.log('Showing error:', error);
-      handleSnackbar(error)
+      handleSnackbar({error})
     }
-  },[error])
+     else if(successmessege)
+    {console.log('Login Successful')
+       handleSnackbar({successmessege})
+    }
+
+  },[error,successmessege])
   
+
 
 
   return (

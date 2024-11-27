@@ -5,7 +5,9 @@ const initialState = {
    screen: null,
   isAuthenticated: false,
   userstate:'',
- 
+  // message: null,
+  successmessege: null,
+
 };
 
 
@@ -17,13 +19,16 @@ const Auth = (state = initialState, action) => {
     case 'LOGIN_SUCCESSFUL':
       
     console.log('API response2:', action.payload.data);
+     console.log('API response1:' , action.payload.successmessege)
+    
     return { 
         ...state, 
         screen:  action.payload.data.buttons ,
         user:    action.payload.data.result,                      
         isAuthenticated:true,
         error: null,
-        
+        // messege: 'Login Success'
+        successmessege: action.payload.successmessege
       };
 
 
@@ -37,8 +42,10 @@ const Auth = (state = initialState, action) => {
         user: null, 
         screen: null,
         isAuthenticated:false,
+        // messege: null,
         error: action.payload.error,
-       
+        successmessege: null
+        
       };
     case 'SET_VALUE':
       return { ...state, name: action.payload };

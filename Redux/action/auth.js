@@ -6,10 +6,11 @@ export const fetchapilogin = (name,password) => ({
 
 
   
-  export const loginsuccessful = (data) => ({
+  export const loginsuccessful = (data,successmessege) => ({
     type: 'LOGIN_SUCCESSFUL',
     payload: 
-      {data
+      {data,
+      successmessege
       }
   });
   

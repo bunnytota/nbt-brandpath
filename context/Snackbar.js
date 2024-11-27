@@ -9,30 +9,44 @@ export const SnackProvider =({children})=>{
 
   
      const [show,setShow]= useState(false)
-     const [error,setError]=useState('')
+    //  const [error,setError]=useState('')
      const [messege,setMessege]=useState('')
-
+     const [explain,setExplain]=useState('')
+     const [type,setType]= useState('info')
     
- const handleSnackbar =({error})=>{
+
+
+
+   const handleSnackbar =({error, successmessege})=>{
+     
+
+    console.log('context error', error)
+    console.log('context successful' ,successmessege)
+     
+      if (error) {
+        setShow(true)
+        setMessege(error[0])
+        setExplain(error[1])
+        setType('error')
+      } else if (successmessege) {
+        setShow(true)
+        setMessege(successmessege[0])
+        setExplain(successmessege[1])
+        setType('success')
+      } else {
+        setShow(false)
+      }
+    }
+
+
+
+
+
+
 
   
-    if(error==null )
-{    
-    setShow(false)
-}   
- else 
-    { setShow(true)
-   if (error) {
-     setError(error[0])
-     setMessege(error[1])
-   } 
- }
 
-}
-
-
-
-    return <SnackbarContext.Provider value={{show,setShow,error,messege,handleSnackbar}}>
+    return <SnackbarContext.Provider value={{type,show,setShow,messege,explain,handleSnackbar}}>
         {children}
         </SnackbarContext.Provider>
 }

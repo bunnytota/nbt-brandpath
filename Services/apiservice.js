@@ -7,7 +7,7 @@ import { Baseurl, Header} from '../utils/apiconfig'
     baseURL: Baseurl(),
     headers: {
       'Content-Type': 'application/json',
-        Authorization: Header(),
+         Authorization: Header(),
     },
   })  
 
