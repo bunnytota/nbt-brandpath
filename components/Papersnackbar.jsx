@@ -26,7 +26,7 @@ const Papersnackbar = () => {
           <Text style={styles.Snackbar}>
           {
            type === 'error'? (
-            <FontAwesome name="times-circle" size={25} colr="red" solid={true}/>
+            <FontAwesome name="times-circle" size={25} color="red" solid={true}/>
            )
             : type === 'success' ?(
               <FontAwesome name="check-circle" size={25} color="lightgreen" solid={true}/>
