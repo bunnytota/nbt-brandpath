@@ -1,54 +1,53 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React ,{useEffect} from 'react'
-import Loginscreen from '../screens/Loginscreen'
-import Changepin from '../screens/Changepin'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useSelector } from 'react-redux'
-import { useContext } from 'react'
-import { SnackbarContext } from '../context/Snackbar'
-
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import LoginScreen from '../screens/LoginScreen';
+import ChangePinScreen from '../screens/ChangePinScreen';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useSelector, useDispatch} from 'react-redux';
+import {useContext} from 'react';
+import {SnackbarContext} from '../context/Snackbar';
+import Loader from '../components/Loader';
+import {clearerror, clearmessege} from '../Redux/action/auth';
+import {createStackNavigator} from '@react-navigation/stack';
 const AuthScreen = () => {
+  const Auth = createStackNavigator();
 
-  const Auth = createNativeStackNavigator()
+  const {handleSnackbar} = useContext(SnackbarContext);
 
-  const {handleSnackbar}  = useContext(SnackbarContext)
+  const {error, messege, loading} = useSelector(state => state.auth);
 
-  
-  const {error,successmessege}= useSelector((state)=>state.Auth)
-  
-  useEffect(()=>{
-    console.log('Auth state changed:', error);
-    if(error) {
-      console.log('Showing error:', error);
-      handleSnackbar({error})
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error) {
+      handleSnackbar({error});
+      dispatch(clearerror());
+    } else if (messege) {
+      handleSnackbar({messege});
+      dispatch(clearmessege());
     }
-     else if(successmessege)
-    {console.log('Login Successful')
-       handleSnackbar({successmessege})
-    }
-
-  },[error,successmessege])
-  
-
-
+  }, [error, messege]);
 
   return (
-   <> 
-   <Auth.Navigator>
-   <Auth.Screen 
-    name="Login" 
-    component={Loginscreen} 
-    options={{headerShown: false}} 
-  />
-  <Auth.Screen 
-    name="Change" 
-    component={Changepin} 
-    options={{headerShown: false}} 
-  /></Auth.Navigator>
-  </>
-  )
-}
+    <>
+      {loading && <Loader />}
 
-export default AuthScreen
+      <Auth.Navigator>
+        <Auth.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Auth.Screen
+          name="Change"
+          component={ChangePinScreen}
+          options={{headerShown: false}}
+        />
+      </Auth.Navigator>
+    </>
+  );
+};
 
-const styles = StyleSheet.create({})
+export default AuthScreen;
+
+const styles = StyleSheet.create({});

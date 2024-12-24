@@ -1,71 +1,113 @@
-export const fetchapilogin = (name,password) => ({
-    type: 'FETCH_API_LOGIN',
-    name,
-    password
-  });
+//LOGIN
+export const loginrequest = (name, password) => ({
+  type: 'LOGIN_REQUEST',
+  name,
+  password,
+});
 
+export const loginsuccessful = (data, messege) => ({
+  type: 'LOGIN_SUCCESSFUL',
+  payload: {data, messege},
+});
 
-  
-  export const loginsuccessful = (data,successmessege) => ({
-    type: 'LOGIN_SUCCESSFUL',
-    payload: 
-      {data,
-      successmessege
-      }
-  });
-  
-  export const loginfail = (error) => ({
-    type: 'LOGIN_FAIL',
-    payload: error
-  });
-  
-  export const setValue = (name) => ({
-    type: 'SET_VALUE',
-    payload: name
-  });
-  
-  export const setValue2 = (password) => ({
-    type: 'SET_VALUE2',
-    payload: password
-  });
+export const loginfail = error => ({
+  type: 'LOGIN_FAIL',
+  payload: error,
+});
 
+//CHANGE PIN
+export const changepinrequest = (name, oldpassword, newpassword) => ({
+  type: 'CHANGE_PIN_REQUEST',
+  name,
+  newpassword,
+  oldpassword,
+});
 
-  export const locationrequest =()=>({
+export const changepinsuccessful = (data, messege) => ({
+  type: 'CHANGE_PIN_SUCCESSFUL',
+  payload: {
+    data,
+    messege,
+  },
+});
 
-      type:'FETCH_API_LOCATION'
-  })
+export const changepinfails = error => ({
+  type: 'CHANGE_PIN_FAIL',
+  payload: error,
+});
 
+//LOGOUT
+export const logoutrequest = username => ({
+  type: 'LOG_OUT_REQUEST',
+  username,
+});
+export const logoutsuccessful = messege => ({
+  type: 'LOG_OUT_SUCCESSFUL',
 
-  export const locationsuccesful =(data)=>({
+  payload: {
+    messege,
+  },
+});
 
-    type:'FETCH_LOCATION_SUCCESSFUL',
-    payload:{data}
-})
+export const logoutfails = error => ({
+  type: 'LOG_OUT_FAIL',
+  payload: error,
+});
 
+// CLEAN
+export const clearerror = () => ({
+  type: 'CLEAR_ERROR',
+});
 
+export const clearmessege = () => ({
+  type: 'CLEAR_MESSEGE',
+});
 
-export const partnerrequest =()=>({
+//LOADER
+export const setloading = loading => ({
+  type: 'LOADING',
+  payload: loading,
+});
 
-  type:'FETCH_API_PARTNER'
-})
+export const userstaterequest = name => ({
+  type: 'USER_STATE_REQUEST',
+  name,
+});
 
+export const userstatesuccessful = data => ({
+  type: 'USER_STATE_SUCCESSFUL',
+  payload: data,
+});
 
-export const partnersuccesful =(data)=>({
+export const userstatefails = error => ({
+  type: 'USER_STATE_FAILS',
+  payload: error,
+});
 
-type:'FETCH_PARTNER_SUCCESSFUL',
-payload:{data}
-})
+export const locationlistrequest = () => ({
+  type: 'LOCATION_LIST_REQUEST',
+});
 
+export const locationlistsuccessful = data => ({
+  type: 'LOCATION_LIST_SUCCESSFUL',
+  payload: data,
+});
 
-export const getuserstate =(name)=>({
+export const locationlistfails = error => ({
+  type: 'LOCATION_LIST_FAILS',
+  payload: error,
+});
 
-   type:'GET_USER_STATE',
-   name
-})
+export const partnerlistrequest = () => ({
+  type: 'PARTNER_LIST_REQUEST',
+});
 
- export const getuserstatesuccessful =(data)=>({
+export const partnerlistsuccessful = data => ({
+  type: 'PARTNER_LIST_SUCCESSFUL',
+  payload: data,
+});
 
-  type:'GET_USER_STATE_SUCCESSFUL',
-  payload:{data}
-
- })
+export const partnerlistfails = error => ({
+  type: 'PARTNER_LIST_FAILS',
+  payload: error,
+});

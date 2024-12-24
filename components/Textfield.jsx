@@ -7,7 +7,7 @@ const Textfield = ({ value, onChangeText, onBlur, placeholder, iconName, error }
   return (
     <View style={[styles.inputContainer, error && styles.inputError]}>
       <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.inputIcon}>
-        <Icon name={iconName} size={27} color="#ffff" />
+        <Icon name={iconName} size={20} color="#ffff" />
       </LinearGradient>
       <TextInput
         placeholder={placeholder}
@@ -24,37 +24,28 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 66,
-    width: 240,
+    marginBottom: 23,
+    width: '100%',
     backgroundColor: '#f0f0f0',
     borderRadius: 24,
-    height: 48,
+    height: 38,
   },
   inputIcon: {
-    height: 40,
-    width: 40,
+    height: 33,
+    width: 33,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 4,
   },
-  input: {
-    flex: 1,
-    paddingBottom: 8,
-    fontSize: 18,
-    
-    marginLeft: 4,
-    width: '80%',
-  },
+  
   placeholder: {
-    fontFamily: 'Poppins-Regular',
-    fontWeight: 'bold',
-    
-    fontSize: 10,
+    marginLeft: 10,
   },
   inputError: {
     borderColor: 'red',
     borderWidth: 1,
+    
   },
 
   changepin: {

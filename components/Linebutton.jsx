@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Linebutton = ({value}) => {
+const LineButton = ({value}) => {
   return (
     <View style={styles.changePinContent}>
     <View style={styles.changePinLine} />
@@ -13,7 +13,7 @@ const Linebutton = ({value}) => {
   )
 }
 
-export default Linebutton
+export default LineButton
 
 const styles = StyleSheet.create({
 

@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Escalation = () => {
+const LocationList = () => {
   return (
     <View>
-      <Text>Escalation</Text>
+      <Text>LocationList</Text>
     </View>
   )
 }
 
-export default Escalation
+export default LocationList
 
 const styles = StyleSheet.create({})

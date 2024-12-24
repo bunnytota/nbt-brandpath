@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {SnackbarContext}  from '../context/Snackbar'
 import { useContext } from 'react';
 
-const Papersnackbar = () => {
+const PaperSnackbar = () => {
   const {show, setShow, messege, explain,type} = useContext(SnackbarContext)
  
  
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Papersnackbar;
+export default PaperSnackbar;

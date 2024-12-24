@@ -19,6 +19,7 @@ export default LineargradientCom
 const styles = StyleSheet.create({
 
     gradient: {
+    
         position: 'absolute',
         top: 0,
         width: '100%',

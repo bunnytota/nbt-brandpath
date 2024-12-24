@@ -1,37 +1,50 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as yup from 'yup';
 import OTPTextView from 'react-native-otp-textinput';
-import Sharedlayout from '../components/Sharedlayout';
+
 import Logo from '../components/Logo';
 import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
-import Linebutton from '../components/Linebutton';
-
+import LineButton from '../components/LineButton';
+import {useDispatch} from 'react-redux';
+import {changepinrequest} from '../Redux/action/auth';
+import Textfield from '../components/TextField';
+import SharedLayout from '../components/SharedLayout';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   oldpassword: yup
     .string()
     .required('Old PIN is required')
-    .matches(/^\d{5}$/, 'PIN must be exactly 5 digits')
-    ,newpassword: yup
+    .matches(/^\d{5}$/, 'PIN must be exactly 5 digits'),
+  newpassword: yup
     .string()
     .required('please Enter New Pin')
-    .matches(/^\d{5}$/, 'PIN must be exactly 5 digits')
-       
-  });
+    .matches(/^\d{5}$/, 'PIN must be exactly 5 digits'),
+});
 
-const Changepin = ({navigation}) => {
+const ChangePinScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+
   const [showkey, setShowkey] = useState(false);
   const [showkey2, setShowkey2] = useState(false);
   const formik = useFormik({
-    initialValues: { name: '', oldpassword: '',newpassword:'' },
+    initialValues: {name: '', oldpassword: '', newpassword: ''},
     validationSchema: schema,
-    onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
+    onSubmit: (values, {setSubmitting}) => {
+      const {name, oldpassword, newpassword} = values;
+      dispatch(changepinrequest(name, oldpassword, newpassword));
+
       setSubmitting(false);
     },
   });
@@ -39,33 +52,49 @@ const Changepin = ({navigation}) => {
   return (
     <View style={styles.container}>
       <LineargradientCom />
+      <View marginTop={40} />
       <Logo />
       <View style={styles.formContainer}>
         <Text style={[styles.text, styles.loginText]}>CHANGE PIN</Text>
-        
-        <View style={styles.inputContainer}>
-          <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.inputIcon}>
-            <Icon name="person" size={27} color="#ffff" />
+        <Text style={styles.fieldheadtext}>Username</Text>
+        <Textfield
+          placeholder={'Enter username'}
+          iconName={'person'}
+          value={formik.values.name}
+          onChangeText={formik.handleChange('name')}
+          onBlur={formik.handleBlur('name')}
+        />
+
+        {/* <View style={styles.inputContainer}>
+          <LinearGradient
+            colors={['#0175b2', '#4b3d91']}
+            style={styles.inputIcon}>
+            <Icon name="person" size={23} color="#ffff" />
           </LinearGradient>
 
           <TextInput
-            placeholder="Your Name"
-          
+            placeholder="  Enter username"
             onChangeText={formik.handleChange('name')}
             onBlur={formik.handleBlur('name')}
             value={formik.values.name}
           />
-        </View>
-        {formik.errors.name && formik.touched.name && <Text style={styles.errorText}>{formik.errors.name}</Text>}
-       
-        <Text style={styles.fieldheadtext}>Old Pin</Text>
+        </View> */}
+        {formik.errors.name && formik.touched.name && (
+          <Text style={styles.errorText}>{formik.errors.name}</Text>
+        )}
+
+        <Text style={styles.fieldheadtext}>Old PIN</Text>
         <View style={styles.inputContainer}>
-          <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.inputIcon}>
-            <Icon name="key" size={25} color="#ffff" />
+          <LinearGradient
+            colors={['#0175b2', '#4b3d91']}
+            style={styles.inputIcon}>
+            <Icon name="key" size={23} color="#ffff" />
           </LinearGradient>
           <View style={styles.passwordInputContainer}>
             <OTPTextView
-              handleTextChange={(value) => formik.setFieldValue('oldpassword', value)}
+              handleTextChange={value =>
+                formik.setFieldValue('oldpassword', value)
+              }
               containerStyle={styles.otpContainer}
               textInputStyle={styles.otpInput}
               inputCount={5}
@@ -76,23 +105,31 @@ const Changepin = ({navigation}) => {
             />
             <View style={styles.eye}>
               <TouchableOpacity onPress={() => setShowkey(!showkey)}>
-                <Icon name={!showkey ? 'visibility-off' : 'visibility'} size={23} color='grey' />
+                <Icon
+                  name={!showkey ? 'visibility-off' : 'visibility'}
+                  size={23}
+                  color="grey"
+                />
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        {formik.errors.oldpassword && formik.touched.oldpassword && <Text style={styles.errorText}>{formik.errors.oldpassword}</Text>}
+        {formik.errors.oldpassword && (
+          <Text style={styles.errorText}>{formik.errors.oldpassword}</Text>
+        )}
 
-
-
-        <Text style={styles.fieldheadtext}>New Pin</Text>
+        <Text style={styles.fieldheadtext}>New PIN</Text>
         <View style={styles.inputContainer}>
-          <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.inputIcon}>
-            <Icon name="key" size={25} color="#ffff" />
+          <LinearGradient
+            colors={['#0175b2', '#4b3d91']}
+            style={styles.inputIcon}>
+            <Icon name="key" size={23} color="#ffff" />
           </LinearGradient>
           <View style={styles.passwordInputContainer}>
             <OTPTextView
-              handleTextChange={(value) => formik.setFieldValue('newpassword', value)}
+              handleTextChange={value =>
+                formik.setFieldValue('newpassword', value)
+              }
               containerStyle={styles.otpContainer}
               textInputStyle={styles.otpInput}
               inputCount={5}
@@ -103,46 +140,63 @@ const Changepin = ({navigation}) => {
             />
             <View style={styles.eye}>
               <TouchableOpacity onPress={() => setShowkey2(!showkey2)}>
-                <Icon name={!showkey2 ? 'visibility-off' : 'visibility'} size={23} color='grey' />
+                <Icon
+                  name={!showkey2 ? 'visibility-off' : 'visibility'}
+                  size={23}
+                  color="grey"
+                />
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        {formik.errors.newpassword && formik.touched.newpassword && <Text style={styles.errorText}>{formik.errors.newpassword}</Text>}
-       
-
+        {formik.errors.newpassword && (
+          <Text style={styles.errorText}>{formik.errors.newpassword}</Text>
+        )}
 
         <Button
           onPress={formik.handleSubmit}
           isSubmitting={formik.isSubmitting}
-          iconName="login"
-          value='Change PIN'
+          iconName="sign-in-alt"
+          value="Change PIN"
         />
 
-        <TouchableOpacity onPress={navigation.goBack} style={styles.changePinContainer}>
-          <Linebutton value='Back to Login' />
+        <TouchableOpacity
+          onPress={navigation.goBack}
+          style={styles.changePinContainer}>
+          <LineButton value="Back to Login" />
         </TouchableOpacity>
       </View>
-      
+      <View style={styles.SharedLayout}>
+        <SharedLayout />
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  // scrollContainer: {
+  //   height: '100%',
+  // },
+
+  SharedLayout: {
+    margin: 3,
+    position: 'absolute',
+    bottom: 0,
+    zIndex: -1,
+  },
+
   eye: {
     position: 'absolute',
     right: 10,
     top: '50%',
-    transform: [{ translateY: -12 }],
-    marginRight: 5,
-    //marginTop: 12,
+    transform: [{translateY: -12}],
+    marginRight: 4,
   },
   container: {
-    //flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#dcdbdb',
-    height:'100%' // Replace with your custom background color
+    height: '100%',
   },
   gradient: {
     position: 'absolute',
@@ -159,41 +213,40 @@ const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: 'white',
     width: '80%',
+
     borderRadius: 16,
-    padding: 24,
+    padding: 17,
     zIndex: 10,
     marginTop: '1%',
-    marginBottom:'5%'
-    
+    marginBottom: '40%',
   },
   text: {
     fontFamily: '18 Khebrat Musamim Regular',
     textAlign: 'center',
     color: 'black',
-    fontSize: 25,
+    fontSize: 35,
   },
   loginText: {
-    marginBottom: 16,
+    marginBottom: '2%',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 23,
-    width: '100%', // Change from 240 to 100%
+    width: '100%',
     backgroundColor: '#f0f0f0',
     borderRadius: 24,
-    height: 48,
+    height: 38,
   },
   inputIcon: {
-    height: 40,
-    width: 40,
+    height: 33,
+    width: 33,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 4,
   },
   input: {
-    //flex: 1,
     paddingBottom: 8,
     fontSize: 18,
     marginLeft: 4,
@@ -215,7 +268,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     borderBottomWidth: 1,
-    borderBottomColor: '#94a3b8', // slate-400
+    borderBottomColor: '#94a3b8',
     padding: 0,
     margin: 5,
     marginLeft: 6,
@@ -246,14 +299,14 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#d1d5db',
-    //marginHorizontal: ,
+
     marginLeft: 20,
   },
   changePinLine2: {
     flex: 1,
     height: 1,
     backgroundColor: '#d1d5db',
-    //marginHorizontal: ,
+
     marginRight: 20,
   },
   changePinText: {
@@ -274,40 +327,37 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    textAlign: 'center',
-    marginTop: -8, // Add this line to reduce the upper padding
-    marginBottom: 8, // Add this line to maintain some space before the next element
+    textAlign: 'left',
+    marginTop: -8,
+    marginBottom: 8,
+    marginLeft: '5%',
   },
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //width: '50%', // Increase from 70% to 85%
-    height: 38,
+
+    height: 49,
   },
   otpInput: {
     borderBottomWidth: 1,
-    //borderBottomColor: 'black',
-    width: '11%', // Increase from 16 to 30
-    height: 29,
-    fontSize: 12, // Increase from 10 to 12 for better readability
-    textAlign: 'center',
-    //justifyContent:'center',
-    padding: 0,
-   
-    margin: 5,
-    color: 'black', // Add this line to ensure text color is black
-  },
-  sharedlayout:{
-     position:'absolute',
-     bottom:1
-  }
-  ,fieldheadtext:{
-    alignItems:'center',
-    marginLeft:'5%',
-    marginBottom:'1%',
-    fontFamily: 'Poppins-Regular'
 
-  }
+    width: '11%',
+    height: 29,
+    fontSize: 12,
+    textAlign: 'center',
+
+    padding: 0,
+
+    margin: 5,
+    color: 'black',
+  },
+
+  fieldheadtext: {
+    alignItems: 'center',
+    marginLeft: '5%',
+    marginBottom: '1%',
+    fontFamily: 'Poppins-Regular',
+  },
 });
 
-export default Changepin;
+export default ChangePinScreen;

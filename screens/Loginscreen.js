@@ -1,84 +1,106 @@
-import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as yup from 'yup';
 import OTPTextView from 'react-native-otp-textinput';
-import Sharedlayout from '../components/Sharedlayout';
+
 import Logo from '../components/Logo';
 import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
-import Linebutton from '../components/Linebutton';
-import { useDispatch } from 'react-redux';
-import { fetchapilogin, getuserstate } from '../Redux/action/auth';
+import LineButton from '../components/LineButton';
+import {useDispatch} from 'react-redux';
+import {locationlistrequest} from '../Redux/action/auth';
+import {loginrequest, userstaterequest} from '../Redux/action/auth';
+import SharedLayout from '../components/SharedLayout';
+import Textfield from '../components/TextField';
 
-// import  Snackbar  from '../components/Snackbar';
-
-import { setValue,setValue2 } from '../Redux/action/auth';
-import Api from '../components/Api';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   password: yup
     .string()
     .required('PIN is required')
-    .matches(/^\d{5}$/, 'PIN must be exactly 5 digits')
+    .matches(/^\d{5}$/, 'PIN must be exactly 5 digits'),
 });
 
-const Loginscreen = ({navigation}) => {
-
- 
-
-  const dispatch = useDispatch()
+const LoginScreen = ({navigation}) => {
+  const dispatch = useDispatch();
 
   const [showkey, setShowkey] = useState(false);
 
   const formik = useFormik({
-    initialValues: { name: '', password: '' },
+    initialValues: {name: '', password: ''},
     validationSchema: schema,
-    onSubmit: async(values, { setSubmitting }) => {
-      console.log(values);
-      const { name, password } = values;
-       
-     dispatch(fetchapilogin(name, password));
-     
-      dispatch(getuserstate(name))
-    
-    
-     setSubmitting(false);
-     
+    onSubmit: async (values, {setSubmitting}) => {
+      const {name, password} = values;
+
+      dispatch(loginrequest(name, password));
+
+      dispatch(userstaterequest(name));
+      dispatch(locationlistrequest());
+      setSubmitting(false);
     },
   });
 
   return (
     <View style={styles.container}>
+      {/* behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
+      {/* <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps="handled"></ScrollView> */}
+
       <LineargradientCom />
       <Logo />
       <View style={styles.formContainer}>
         <Text style={[styles.text, styles.loginText]}>LOGIN</Text>
-        
-        <View style={styles.inputContainer}>
-          <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.inputIcon}>
-            <Icon name="person" size={27} color="#ffff" />
+
+        <Text style={styles.fieldheadtext}>Username</Text>
+        <Textfield
+          placeholder={'Your Name'}
+          iconName={'person'}
+          onChangeText={formik.handleChange('name')}
+          onBlur={formik.handleBlur('name')}
+          value={formik.values.name}
+        />
+
+        {/* <View style={styles.inputContainer}>
+          <LinearGradient
+            colors={['#0175b2', '#4b3d91']}
+            style={styles.inputIcon}>
+            <Icon name="person" size={23} color="#ffff" />
           </LinearGradient>
 
           <TextInput
-            placeholder="Your Name"
-          
+            placeholder="  Your Name"
             onChangeText={formik.handleChange('name')}
             onBlur={formik.handleBlur('name')}
             value={formik.values.name}
           />
-        </View>
-        {formik.errors.name && formik.touched.name && <Text style={styles.errorText}>{formik.errors.name}</Text>}
-        
+        </View> */}
+        {formik.errors.name && formik.touched.name && (
+          <Text style={styles.errorText}>{formik.errors.name}</Text>
+        )}
+        <Text style={styles.fieldheadtext}>PIN</Text>
         <View style={styles.inputContainer}>
-          <LinearGradient colors={['#0175b2', '#4b3d91']} style={styles.inputIcon}>
-            <Icon name="key" size={25} color="#ffff" />
+          <LinearGradient
+            colors={['#0175b2', '#4b3d91']}
+            style={styles.inputIcon}>
+            <Icon name="key" size={23} color="#ffff" />
           </LinearGradient>
           <View style={styles.passwordInputContainer}>
             <OTPTextView
-              handleTextChange={(value) => formik.setFieldValue('password', value)}
+              handleTextChange={value =>
+                formik.setFieldValue('password', value)
+              }
               containerStyle={styles.otpContainer}
               textInputStyle={styles.otpInput}
               inputCount={5}
@@ -89,50 +111,62 @@ const Loginscreen = ({navigation}) => {
             />
             <View style={styles.eye}>
               <TouchableOpacity onPress={() => setShowkey(!showkey)}>
-                <Icon name={!showkey ? 'visibility-off' : 'visibility'} size={23} color='grey' />
+                <Icon
+                  name={!showkey ? 'visibility-off' : 'visibility'}
+                  size={23}
+                  color="grey"
+                />
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        {formik.errors.password && formik.touched.password && <Text style={styles.errorText}>{formik.errors.password}</Text>}
-        
+        {formik.errors.password && (
+          <Text style={styles.errorText}>{formik.errors.password}</Text>
+        )}
+
         <Button
           onPress={formik.handleSubmit}
           isSubmitting={formik.isSubmitting}
-          iconName="login"
-          value='Login'
-   
+          iconName="sign-in-alt"
+          value="Login"
         />
 
-        <TouchableOpacity onPress={() => navigation.navigate('Change')} style={styles.changePinContainer}>
-          <Linebutton value='Change Your PIN' />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Change')}
+          style={styles.changePinContainer}>
+          <LineButton value="Change Your PIN" />
         </TouchableOpacity>
-
-        <View>
-          {/* <Snackbar/> */}
-        </View>
       </View>
 
+      <View style={styles.SharedLayout}>
+        <SharedLayout />
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  SharedLayout: {
+    margin: 3,
+    position: 'absolute',
+    bottom: 0,
+    zIndex: -1,
+  },
+
   eye: {
     position: 'absolute',
     right: 10,
     top: '50%',
-    transform: [{ translateY: -12 }],
-    marginRight: 5,
-   
+    transform: [{translateY: -12}],
+    marginRight: 4,
   },
   container: {
-    flex: 1,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor: '#dcdbdb',
-    height:'100%' 
+    backgroundColor: '#dcdbdb',
   },
+
   gradient: {
     position: 'absolute',
     top: 0,
@@ -141,24 +175,20 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
   },
-  logo: {
-    height: 100,
-    width: 100,
-  },
+
   formContainer: {
     backgroundColor: 'white',
     width: '80%',
     borderRadius: 16,
-    padding: 24,
+    padding: 15,
     zIndex: 10,
-    marginBottom: '20%'
-   
+    marginBottom: '40%',
   },
   text: {
     fontFamily: '18 Khebrat Musamim Regular',
     textAlign: 'center',
     color: 'black',
-    fontSize: 25,
+    fontSize: 35,
   },
   loginText: {
     marginBottom: 16,
@@ -167,21 +197,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 23,
-    width: '100%', 
+    width: '100%',
     backgroundColor: '#f0f0f0',
     borderRadius: 24,
-    height: 48,
+    height: 38,
   },
   inputIcon: {
-    height: 40,
-    width: 40,
+    height: 33,
+    width: 33,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 4,
   },
   input: {
-    
     paddingBottom: 8,
     fontSize: 18,
     marginLeft: 4,
@@ -203,7 +232,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     borderBottomWidth: 1,
-    borderBottomColor: '#94a3b8', 
+    borderBottomColor: '#94a3b8',
     padding: 0,
     margin: 5,
     marginLeft: 6,
@@ -234,14 +263,14 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#d1d5db',
-  
+
     marginLeft: 20,
   },
   changePinLine2: {
     flex: 1,
     height: 1,
     backgroundColor: '#d1d5db',
-   
+
     marginRight: 20,
   },
   changePinText: {
@@ -262,33 +291,38 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    textAlign: 'center',
-    marginTop: -8, 
-    marginBottom: 8,},
+    textAlign: 'left',
+    marginTop: -8,
+    marginBottom: 8,
+    marginLeft: '5%',
+  },
 
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    
-    height: 38,
+
+    height: 49,
   },
   otpInput: {
     borderBottomWidth: 1,
-    
-    width: '11%', 
+
+    width: '11%',
     height: 29,
-    fontSize: 12, 
+    fontSize: 12,
     textAlign: 'center',
-    
+
     padding: 0,
-   
+
     margin: 5,
-    color: 'black', 
+    color: 'black',
   },
-  sharedlayout:{
-     position:'absolute',
-     bottom:1
-  }
+
+  fieldheadtext: {
+    alignItems: 'center',
+    marginLeft: '5%',
+    marginBottom: '1%',
+    fontFamily: 'Poppins-Regular',
+  },
 });
 
-export default Loginscreen;
+export default LoginScreen;
