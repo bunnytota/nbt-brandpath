@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import OTPTextView from 'react-native-otp-textinput';
 
@@ -18,9 +18,9 @@ import Logo from '../components/Logo';
 import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
 import LineButton from '../components/LineButton';
-import {useDispatch} from 'react-redux';
-import {locationlistrequest} from '../Redux/action/auth';
-import {loginrequest, userstaterequest} from '../Redux/action/auth';
+import { useDispatch } from 'react-redux';
+import { locationlistrequest, partnerlistrequest } from '../Redux/action/auth';
+import { loginrequest, userstaterequest } from '../Redux/action/auth';
 import SharedLayout from '../components/SharedLayout';
 import Textfield from '../components/TextField';
 
@@ -32,21 +32,22 @@ const schema = yup.object().shape({
     .matches(/^\d{5}$/, 'PIN must be exactly 5 digits'),
 });
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [showkey, setShowkey] = useState(false);
 
   const formik = useFormik({
-    initialValues: {name: '', password: ''},
+    initialValues: { name: '', password: '' },
     validationSchema: schema,
-    onSubmit: async (values, {setSubmitting}) => {
-      const {name, password} = values;
+    onSubmit: async (values, { setSubmitting }) => {
+      const { name, password } = values;
 
       dispatch(loginrequest(name, password));
 
       dispatch(userstaterequest(name));
       dispatch(locationlistrequest());
+      dispatch(partnerlistrequest());
       setSubmitting(false);
     },
   });
@@ -100,6 +101,7 @@ const LoginScreen = ({navigation}) => {
             <OTPTextView
               handleTextChange={value =>
                 formik.setFieldValue('password', value)
+
               }
               containerStyle={styles.otpContainer}
               textInputStyle={styles.otpInput}
@@ -108,6 +110,7 @@ const LoginScreen = ({navigation}) => {
               secureTextEntry={!showkey}
               tintColor="gray"
               offTintColor="gray"
+
             />
             <View style={styles.eye}>
               <TouchableOpacity onPress={() => setShowkey(!showkey)}>
@@ -120,7 +123,7 @@ const LoginScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        {formik.errors.password && (
+        {formik.errors.password && formik.touched.password && (
           <Text style={styles.errorText}>{formik.errors.password}</Text>
         )}
 
@@ -157,7 +160,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: '50%',
-    transform: [{translateY: -12}],
+    transform: [{ translateY: -12 }],
     marginRight: 4,
   },
   container: {

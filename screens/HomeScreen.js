@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,24 +8,24 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '../components/Button';
 import LineargradientCom from '../components/LineargradientCom';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Clock from '../components/Clock';
 import LinearGradient from 'react-native-linear-gradient';
-import {locationrequest, partnerrequest} from '../Redux/action/auth';
+import { locationrequest, partnerrequest } from '../Redux/action/auth';
 
-import {logoutrequest} from '../Redux/action/auth';
+import { logoutrequest } from '../Redux/action/auth';
 
 import BarCode from '../components/BarCode';
 import LocationPartner from '../components/LocationPartner';
 import CustomHeader from '../components/CustomHeader';
 
 const windowHeight = Dimensions.get('window').height;
-const HomeScreen = ({navigation}) => {
-  const {user, screen, error, userstate} = useSelector(state => state.auth);
+const HomeScreen = ({ navigation }) => {
+  const { user, screen, error, userstate } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const handlenavigation = screen => navigation.navigate(screen);
@@ -72,7 +72,7 @@ const HomeScreen = ({navigation}) => {
                 key={button.name}
                 style={[
                   styles.menuButton,
-                  {backgroundColor: button?.style?.backgroundColor},
+                  { backgroundColor: button?.style?.backgroundColor },
                 ]}>
                 <FontAwesome
                   name={button.iconName}
@@ -89,7 +89,7 @@ const HomeScreen = ({navigation}) => {
           <Text>No buttons available</Text>
         )}
       </View>
-
+      <View style={styles.buttonmarrgen} />
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate('Version')}
@@ -191,7 +191,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonContainer: {
-    marginTop: windowHeight * 0.2,
+
+  },
+  buttonmarrgen: {
+    height: windowHeight * 0.14
   },
   inputContainer: {
     flexDirection: 'row',

@@ -1,14 +1,14 @@
-import axios from '../Services/apiService';
+import api from '../Services/apiService';
 
 export const login = (username, pin) =>
-  axios.post('mobile/LoginPin', {
+  api.post('mobile/LoginPin', {
     username,
     pin,
     azureUserName: 'ayesha.zahid',
   });
 
 export const changepin = (username, pin, newpin) =>
-  axios.post('mobile/ChangePin', {
+  api.post('mobile/ChangePin', {
     username,
     newpin,
     pin,
@@ -16,26 +16,34 @@ export const changepin = (username, pin, newpin) =>
   });
 
 export const logout = username =>
-  axios.post('mobile/Logout', {
+  api.post('mobile/Logout', {
     username,
     azureUserName: 'ayesha.zahid',
   });
 
 export const userstate = username =>
-  axios.get('mobile/GetUserState', {
+  api.get('mobile/GetUserState', {
     params: {
       username,
     },
   });
 
 export const locationlist = () =>
-  axios.get('mobile/Locationlist', {
+  api.get('mobile/Locationlist', {
     // username,
     // azureUserName: 'ayesha.zahid',
   });
 
 export const partnerlist = () =>
-  axios.get('mobile/Parnterlist', {
+  api.get('mobile/Partnerlist', {
     // username,
     // azureUserName: 'ayesha.zahid',
+  });
+
+export const setuserstate = (username, stationID, partnerKey) =>
+  api.post('mobile/SetDispEnv', {
+    username,
+    stationID,
+    partnerKey,
+    azureUserName: 'ayesha.zahid'
   });

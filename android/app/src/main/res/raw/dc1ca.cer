@@ -1,35 +1,5 @@
-<!-- <?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-    <domain-config>
-        <domain includeSubdomains="true"></domain>
-        <trust-anchors>
-            <certificates src="@raw/dc1ca"/>
-        </trust-anchors>
-    </domain-config>
-</network-security-config> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <?xml version="1.0" encoding="utf-8" ?>
-<network-security-config>
-<domain-config cleartextTrafficPermitted="true">
-<domain includeSubdomains="true">https://handheldapi-stg.central.local</domain>
-<pin-set expiration="2028-01-01">
-<pin digest="SHA-256">MIIDmzCCAoOgAwIBAgIQOTrN7b6XaZROnZCP/NLRBDANBgkqhkiG9w0BAQsFADBB
+-----BEGIN CERTIFICATE-----
+MIIDmzCCAoOgAwIBAgIQOTrN7b6XaZROnZCP/NLRBDANBgkqhkiG9w0BAQsFADBB
 MRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxFzAVBgoJkiaJk/IsZAEZFgdjZW50cmFs
 MQ8wDQYDVQQDEwZEQzEtQ0EwHhcNMjIwMjA4MTU1NjU4WhcNMjcwMjA4MTYwNjU2
 WjBBMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxFzAVBgoJkiaJk/IsZAEZFgdjZW50
@@ -48,7 +18,5 @@ ud2meT/nopYu5VWD6A7qD1nfX/57KAEF3anI/sZFdok0HDZgLqsnZwfUbwDf0Ewd
 XR6b8ns3nm6/aYa0FRKhrBCk5SNvFPjE2F6FBcCAluNDiPgCgY2atrWOZa9iMT6n
 2mMjjmDan7QKElHUJNQ88nd7ItRF5/5+8EJW6pO+UnBfqHaW9XnWvrEf+3ROMzy2
 sxfWHhkE5AjxRwgc1Cx7GWCfX0kjTfzGTgjeCiRKLklE8EGxX8nDHjQ6vLD6T4f2
-03XKvD0NNqYjzqrGynyQ</pin>
-</pin-set>
-</domain-config>
-</network-security-config> -->
+03XKvD0NNqYjzqrGynyQ
+-----END CERTIFICATE-----

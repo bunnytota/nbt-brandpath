@@ -1,4 +1,5 @@
 import React from 'react';
+import {useState} from 'react';
 import {
   Text,
   View,
@@ -10,11 +11,19 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import { useSelector } from 'react-redux';
+import Search from './Search';
 
 
-const LocationModal = ({ visible, onClose, locationList, onSelect }) => {
-  
+const LocationModal = ({ visible, onClose, locationList,onSelect }) => {
+   const { locationlist } = useSelector(state => state.auth);
+const [search, setSearch] = useState('');
  
+
+const handleClose = () => { //to close and clear
+  setSearch(''); // Clear search when modal closes
+  onClose(); // to close
+};
+
   return (
     <Modal
       animationType="slide"
@@ -25,55 +34,118 @@ const LocationModal = ({ visible, onClose, locationList, onSelect }) => {
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
-            <Text style={styles.headerTitle}>Select Location</Text>
-            <TouchableOpacity onPress={onClose}>
+            <Text style={styles.headerTitle}>{' '}Select Location</Text>
+            <TouchableOpacity onPress={handleClose}>
               <FontAwesome name="times" size={20} color="#000" />
             </TouchableOpacity>
           </View>
 
-          <View style={styles.searchContainer}>
+
+              <Search
+               placeholder={'Search Location ... '}
+                value={search}
+                onChangeText={setSearch}
+              />
+
+          
+
+
+          {/* <View style={styles.searchContainer}>
             <FontAwesome name="search" size={15} color="#666" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
               placeholder="Search location..."
               placeholderTextColor="#999"
+              value={search}
+              onChangeText={setSearch}
             />
-          </View>
-
+          </View> */}
+             
           <ScrollView 
             style={styles.locationList}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
+            persistentScrollbar={true}           // Keep scrollbar visible
+            indicatorStyle="black"               
           >
-            {locationList?.data?.map(item => (
+             
+            {/* {locationlist?.data?.
+            filter(item => item.locationName.includes(search.toUpperCase()))
+            .map(item => (
               <TouchableOpacity
                 key={item.stationID}
                 style={styles.locationItem}
+                
                 onPress={() => {
-                  onSelect(item);
-                  onClose();
+                onSelect(item)
+                handleClose()
                 }}
               >
                 <Text style={styles.locationText}>{item.locationName}</Text>
-              </TouchableOpacity>
-            ))}
+              </TouchableOpacity> 
+            ))}  */}
+
+
+{/* adding length === 0 to print no result found */}
+{locationlist?.data?.filter(item => 
+  item.locationName.includes(search.toUpperCase())
+).length === 0 ? (
+  <View style={styles.noResultContainer}>
+    <Text style={styles.noResultText}>No Results Found</Text>
+  </View>
+) : (
+  locationlist?.data?.
+    filter(item => item.locationName.includes(search.toUpperCase()))
+    .map(item => (
+      <TouchableOpacity
+        key={item.stationID}
+        style={styles.locationItem}
+        onPress={() => {
+          onSelect(item)
+          handleClose()
+        }}
+      >
+       <Text style={styles.locationText}>{item.locationName}</Text>
+      </TouchableOpacity>
+    ))
+)}
+
+
+
+             
           </ScrollView>
-        </View>
+          </View>
+       
       </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  noResultContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20
+  },
+  noResultText: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '500'
+  },
+  
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
+   
   },
+  
   modalContainer: {
+    flex:1,
     backgroundColor: 'white',
     borderRadius: 20,
-    marginHorizontal: 20,
-    maxHeight: '80%',
+    marginHorizontal: 30,
+    maxHeight: '75%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -85,27 +157,33 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '600',
+    color: 'black'
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    borderRadius: 25,
+    padding: 4,
+    borderRadius: 10,
+  
+    borderWidth: 1, 
+    borderColor: 'gray',
     marginHorizontal: 15,
-    marginBottom: 10,
-    backgroundColor: '#f5f5f5',
+    marginBottom: 20,
+    // backgroundColor: '#f5f5f5',
   },
   searchIcon: {
-    marginHorizontal: 10,
+    marginHorizontal:7 ,
   },
   searchInput: {
     flex: 1,
-    padding: 8,
+    padding: 3,
     fontSize: 16,
   },
   locationList: {
-    maxHeight: '70%',
-    paddingHorizontal: 15,
+   
+    maxHeight: '80%',
+    
+    paddingHorizontal: 20,
   },
   locationItem: {
     paddingVertical: 12,

@@ -7,7 +7,7 @@ export const loginrequest = (name, password) => ({
 
 export const loginsuccessful = (data, messege) => ({
   type: 'LOGIN_SUCCESSFUL',
-  payload: {data, messege},
+  payload: { data, messege },
 });
 
 export const loginfail = error => ({
@@ -111,3 +111,48 @@ export const partnerlistfails = error => ({
   type: 'PARTNER_LIST_FAILS',
   payload: error,
 });
+
+// export const setuserstaterequest = (name, stationID, partnerKey) => ({
+//   type: 'SET_USER_STATE_REQUEST',
+//   name,
+//   stationID,
+//   partnerKey,
+// });
+
+// export const setuserstatesuccessful = () => ({
+//   type: 'SET_USER_STATE_SUCCESSFUL',
+// });
+
+// export const setuserstatefails = error => ({
+//   type: 'SET_USER_STATE_FAILS',
+//   error,
+// });
+
+export const setuserstaterequest = (name, stationID, partnerKey) => {
+
+  console.log('Action: SET_USER_STATE_REQUEST');
+  return {
+    type: 'SET_USER_STATE_REQUEST',
+    name,
+    stationID,
+    partnerKey,
+  }
+};
+
+
+
+export const setuserstatesuccessful = (setuserstatemessege) => {
+  console.log('Action: SET_USER_STATE_SUCCESSFUL');
+  return {
+    type: 'SET_USER_STATE_SUCCESSFUL',
+    payload: setuserstatemessege
+  };
+};
+
+export const setuserstatefails = error => {
+  console.log('Action: SET_USER_STATE_FAILS', { error });
+  return {
+    type: 'SET_USER_STATE_FAILS',
+    payload: error,
+  };
+};

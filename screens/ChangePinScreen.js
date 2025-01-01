@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import OTPTextView from 'react-native-otp-textinput';
 
@@ -17,8 +17,8 @@ import Logo from '../components/Logo';
 import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
 import LineButton from '../components/LineButton';
-import {useDispatch} from 'react-redux';
-import {changepinrequest} from '../Redux/action/auth';
+import { useDispatch } from 'react-redux';
+import { changepinrequest } from '../Redux/action/auth';
 import Textfield from '../components/TextField';
 import SharedLayout from '../components/SharedLayout';
 const schema = yup.object().shape({
@@ -33,16 +33,16 @@ const schema = yup.object().shape({
     .matches(/^\d{5}$/, 'PIN must be exactly 5 digits'),
 });
 
-const ChangePinScreen = ({navigation}) => {
+const ChangePinScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [showkey, setShowkey] = useState(false);
   const [showkey2, setShowkey2] = useState(false);
   const formik = useFormik({
-    initialValues: {name: '', oldpassword: '', newpassword: ''},
+    initialValues: { name: '', oldpassword: '', newpassword: '' },
     validationSchema: schema,
-    onSubmit: (values, {setSubmitting}) => {
-      const {name, oldpassword, newpassword} = values;
+    onSubmit: (values, { setSubmitting }) => {
+      const { name, oldpassword, newpassword } = values;
       dispatch(changepinrequest(name, oldpassword, newpassword));
 
       setSubmitting(false);
@@ -114,7 +114,7 @@ const ChangePinScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        {formik.errors.oldpassword && (
+        {formik.errors.oldpassword && formik.touched.oldpassword && (
           <Text style={styles.errorText}>{formik.errors.oldpassword}</Text>
         )}
 
@@ -149,7 +149,7 @@ const ChangePinScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        {formik.errors.newpassword && (
+        {formik.errors.newpassword && formik.touched.newpassword && (
           <Text style={styles.errorText}>{formik.errors.newpassword}</Text>
         )}
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: '50%',
-    transform: [{translateY: -12}],
+    transform: [{ translateY: -12 }],
     marginRight: 4,
   },
   container: {

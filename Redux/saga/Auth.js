@@ -1,7 +1,7 @@
-import {call, put, takeLatest, fork} from 'redux-saga/effects';
+import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as actions from '../action/auth';
 import * as api from '../../API/auth';
-import {navigate} from '../../utils/rootNavigation';
+import { navigate } from '../../utils/rootNavigation';
 
 function* LoginSaga(payload) {
   try {
@@ -232,9 +232,9 @@ function* LocationlistSaga() {
   }
 }
 
-function* PartnerlistSaga(payload) {
+function* PartnerlistSaga() {
   try {
-    const response = yield call(api.partnerlist, payload.name);
+    const response = yield call(api.partnerlist);
     if (response.status === 200) {
       if (!response.data || typeof response.data !== 'object') {
         yield put(
@@ -271,6 +271,54 @@ function* PartnerlistSaga(payload) {
   }
 }
 
+function* SetuserstateSaga(payload) {
+  yield put(actions.setloading(true));
+  try {
+    yield put(actions.setloading(true));
+    console.log('SetuserstateSaga - Starting API call with params:', {
+      name: payload.name,
+      stationID: payload.stationID,
+      partnerKey: payload.partnerKey,
+    });
+
+    const response = yield call(
+      api.setuserstate,
+      payload.name,
+      payload.stationID,
+      payload.partnerKey,
+    );
+    if (response.status === 200) {
+      console.log('successful in setuserstate');
+      yield put(
+        actions.setuserstatesuccessful({
+
+
+
+          setuserstatemessege: [
+            `User state set successfully and  Status is : ${response.status}`
+          ]
+
+        }),
+      );
+      yield put(actions.userstaterequest(payload.name));
+      yield put(actions.setloading(false));
+    } else {
+      yield put(actions.setloading(false));
+      yield put(
+        actions.setuserstatefails({
+          error: [`Unexpected response status `, 'please try again'],
+        }),
+      );
+    }
+  } catch (error) {
+    yield put(
+      actions.setuserstatefails({
+        error: ['An error occurred', error.message || 'Unknown error'],
+      }),
+    );
+  }
+}
+
 export function* watchAuthSaga() {
   yield takeLatest('LOGIN_REQUEST', LoginSaga);
   yield takeLatest('CHANGE_PIN_REQUEST', ChangepinSaga);
@@ -278,6 +326,7 @@ export function* watchAuthSaga() {
   yield takeLatest('USER_STATE_REQUEST', UserstateSaga);
   yield takeLatest('LOCATION_LIST_REQUEST', LocationlistSaga);
   yield takeLatest('PARTNER_LIST_REQUEST', PartnerlistSaga);
+  yield takeLatest('SET_USER_STATE_REQUEST', SetuserstateSaga);
 }
 
 export default function* rootSaga() {

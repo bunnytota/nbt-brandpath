@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   UserInfo: {
     //flex: 0.95,
     //height: 490,
-    height: windowHeight * 0.7,
+    height: windowHeight * 0.68,
     alignItems: 'center',
     backgroundColor: 'white',
     width: '90%',

@@ -182,30 +182,57 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+
 import LocationModal from './LocationModal';
-// import PartnerModal from './PartnerModal';
+import PartnerModal from './PartnerModal';
+import { setuserstaterequest, userstate } from '../Redux/action/auth';
+import { useSelector,useDispatch } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import DispatchScreen from '../screens/DispatchScreen';
 
 const LocationPartner = () => {
   const [locationModalVisible, setLocationModalVisible] = useState(false);
   const [partnerModalVisible, setPartnerModalVisible] = useState(false);
-  const { userstate, locationlist, partnerlist } = useSelector(state => state.auth);
-
-  const handleLocationSelect = (location) => {
-    // Handle location selection
-    console.log('Selected location:', location);
-  };
-
-  const handlePartnerSelect = (partner) => {
-    // Handle partner selection
-    console.log('Selected partner:', partner);
-  };
-
+  const { userstate, user,locationlist, partnerlist } = useSelector(state => state.auth);
+  const dispatch = useDispatch()
+  const [selectedPartner, setSelectedPartner] = useState(userstate?.partnerName || '');
+  const [selectedLocation, setSelectedLocation] = useState(userstate?.stationid || '');
+  
+  console.log('username stationid and partner id',user?.username,locationlist?.data?.[0]?.stationID,partnerlist?.data?.[0]?.partnerKey) 
+  // user?.username
+  // const handleLocationSelect = (location) => {
+  
+    const handleLocationSelect = (location,partner) => {
+      setSelectedLocation(location.locationName);
+      if (partner) {
+        setSelectedPartner(partner.name);
+      }
+  
+      const partnerKey = partner?.partnerKey;
+      // setSelectedPartner(partner?.name);
+       console.log(`username stationid and partner id inside location ${selectedPartner}`,user?.username, location.stationID,userstate.partnerkey,selectedPartner)
+    
+      console.log(location.locationName)
+        dispatch(setuserstaterequest(user?.username, location.stationID, userstate.partnerkey ))
+        //  dispatch(setuserstaterequest(user?.username, location.stationID, selectedPartner ))
+      //  dispatch(userstaterequest(user?.username));
+       setLocationModalVisible(false);
+    };
+  
+    const handlePartnerSelect = (partner) => {
+      setSelectedPartner(partner.name);
+      console.log(`username stationid and partner id inside partner ${selectedLocation}`, user?.username,userstate.stationid,partner.partnerKey)
+      dispatch(setuserstaterequest(user?.username, userstate.stationid, partner.partnerKey))
+    //  dispatch(setuserstaterequest(user?.username, selectedLocation ,partner.partnerKey  ))
+    //  dispatch(userstaterequest(user?.username));
+      console.log(partner.name)
+      setPartnerModalVisible(false);
+    };
+  
   return (
     <View style={styles.roundContainer}>
       <View style={styles.roundedContent}>
-        <TouchableOpacity onPress={() => setLocationModalVisible(true)}>
+         <View>
           <Text style={styles.roundedFont}>
             <FontAwesome
               size={15}
@@ -217,11 +244,16 @@ const LocationPartner = () => {
             Location
           </Text>
           {userstate && (
-            <Text style={styles.textColor}>{userstate.stationid}</Text>
+            <TouchableOpacity onPress={() => {setLocationModalVisible(true)
+             
+            }}>
+                {/* I use OR function if person selectlocation and if not the show   userstate.stationid  */}
+            <Text style={styles.textColor}>{' '}{ selectedLocation && userstate.stationid}</Text>
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
+             </View>
 
-        <TouchableOpacity onPress={() => setPartnerModalVisible(true)}>
+        <View>
           <Text style={styles.roundedFont}>
             <Text> </Text>
             Partner{' '}
@@ -233,23 +265,29 @@ const LocationPartner = () => {
             />
           </Text>
           {userstate && (
-            <Text style={styles.textColor}>{userstate.partnerName}</Text>
+            <TouchableOpacity onPress={() =>{ setPartnerModalVisible(true)
+              
+            }}>
+              {/* I use OR function if person selectparnter and if not the show   userstate.partnerName */}
+             <Text style={styles.textColor}>{' '}{selectedPartner && userstate.partnerName}</Text>
+              
+                 {/* <Text style={styles.textColor}>{' '}{ userstate?.partner.partnerName}</Text>  */}
+          </TouchableOpacity>
           )}
-        </TouchableOpacity>
-
+        </View>
         <LocationModal
           visible={locationModalVisible}
           onClose={() => setLocationModalVisible(false)}
-          locationList={locationlist}
+          // locationList={locationlist}
           onSelect={handleLocationSelect}
         />
 
-        {/* <PartnerModal
+       <PartnerModal
           visible={partnerModalVisible}
           onClose={() => setPartnerModalVisible(false)}
-          partnerList={partnerlist} // Add your partner list data here
+          // partnerList={partnerlist} // Add your partner list data here
           onSelect={handlePartnerSelect}
-        />  */}
+        />  
       </View>
     </View>
   );

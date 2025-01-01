@@ -1,4 +1,4 @@
-import {locationlist, partnerlist, userstate} from '../../API/auth';
+import { setuserstate } from '../../API/auth';
 
 const initialState = {
   user: null,
@@ -13,6 +13,7 @@ const initialState = {
   partnerlist: null,
   // userstateStationid: null,
   // userstatePartnername: null,
+  setuserstate: null,
 };
 
 const auth = (state = initialState, action) => {
@@ -90,7 +91,7 @@ const auth = (state = initialState, action) => {
     case 'LOG_OUT_FAILS': {
       console.log('Logout Successful ', action.payload.error);
 
-      return {...state, error: action.payload.error};
+      return { ...state, error: action.payload.error };
     }
 
     case 'USER_STATE_SUCCESSFUL':
@@ -142,6 +143,20 @@ const auth = (state = initialState, action) => {
         partnerlist: action.payload.error,
       };
 
+    case 'SET_USER_STATE_SUCCESSFUL':
+      console.log('SET_USER_STATE_SUCCESSFUL  : ', action.payload.setuserstatemessege);
+      return {
+        ...state,
+        setuserstate: action.payload,
+        error: null
+      };
+
+    case 'SET_USER_STATE_FAILS':
+      console.log('SET_USER_STATE_FAILS error : ', action.payload.error);
+      return {
+        ...state,
+        setuserstate: action.payload.error,
+      };
     default:
       return state;
   }

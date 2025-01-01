@@ -29,6 +29,7 @@
     "react-native-screens": "^3.34.0",
     "react-native-sound": "^0.11.2",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-ssl-pinning": "^1.5.8",
     "react-native-vector-icons": "^10.2.0",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
