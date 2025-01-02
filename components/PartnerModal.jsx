@@ -64,7 +64,10 @@ const handleClose = () => { //to close and clear
 
           <ScrollView 
             style={styles.partnerList}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
+            persistentScrollbar={true}           // Keep scrollbar visible
+            indicatorStyle="black"   
+          
           >
             {/* {partnerlist?.data
             ?.filter(item => item.name.includes(search.toUpperCase()))
