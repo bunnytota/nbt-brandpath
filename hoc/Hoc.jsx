@@ -3,14 +3,14 @@ import React from 'react';
 import LocationPartner from '../components/LocationPartner';
 import BarCode from '../components/BarCode';
 import UserInfo from '../components/UserInfo';
-// import CustomHeader from '../components/CustomHeader';
+
 import SharedLayout from '../components/SharedLayout';
 
 const windowHeight = Dimensions.get('window').height;
 const Hoc = WrappedComponent => {
   return props => (
     <>
-      {/* <CustomHeader/> */}
+     
       <View style={styles.hoccontainer}>
         <View style={styles.LocationPartner}>
           <LocationPartner   navigation={props.navigation}/>

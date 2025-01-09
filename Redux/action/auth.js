@@ -1,9 +1,10 @@
-//LOGIN
+//LOGIN 
 export const loginrequest = (name, password) => ({
   type: 'LOGIN_REQUEST',
   name,
   password,
 });
+
 
 export const loginsuccessful = (data, messege) => ({
   type: 'LOGIN_SUCCESSFUL',
@@ -15,7 +16,7 @@ export const loginfail = error => ({
   payload: error,
 });
 
-//CHANGE PIN
+//CHANGE PIN 
 export const changepinrequest = (name, oldpassword, newpassword) => ({
   type: 'CHANGE_PIN_REQUEST',
   name,
@@ -30,6 +31,7 @@ export const changepinsuccessful = (data, messege) => ({
     messege,
   },
 });
+
 
 export const changepinfails = error => ({
   type: 'CHANGE_PIN_FAIL',
@@ -69,90 +71,16 @@ export const setloading = loading => ({
   payload: loading,
 });
 
-export const userstaterequest = name => ({
-  type: 'USER_STATE_REQUEST',
-  name,
-});
 
-export const userstatesuccessful = data => ({
-  type: 'USER_STATE_SUCCESSFUL',
-  payload: data,
-});
-
-export const userstatefails = error => ({
-  type: 'USER_STATE_FAILS',
-  payload: error,
-});
-
-export const locationlistrequest = () => ({
-  type: 'LOCATION_LIST_REQUEST',
-});
-
-export const locationlistsuccessful = data => ({
-  type: 'LOCATION_LIST_SUCCESSFUL',
-  payload: data,
-});
-
-export const locationlistfails = error => ({
-  type: 'LOCATION_LIST_FAILS',
-  payload: error,
-});
-
-export const partnerlistrequest = () => ({
-  type: 'PARTNER_LIST_REQUEST',
-});
-
-export const partnerlistsuccessful = data => ({
-  type: 'PARTNER_LIST_SUCCESSFUL',
-  payload: data,
-});
-
-export const partnerlistfails = error => ({
-  type: 'PARTNER_LIST_FAILS',
-  payload: error,
-});
-
-// export const setuserstaterequest = (name, stationID, partnerKey) => ({
-//   type: 'SET_USER_STATE_REQUEST',
-//   name,
-//   stationID,
-//   partnerKey,
+// export const setCleanUsernameAction = (cleanusername) => ({
+//   type: 'SET_CLEAN_USERNAME',
+//   payload: cleanusername,
 // });
 
-// export const setuserstatesuccessful = () => ({
-//   type: 'SET_USER_STATE_SUCCESSFUL',
-// });
-
-// export const setuserstatefails = error => ({
-//   type: 'SET_USER_STATE_FAILS',
-//   error,
-// });
-
-export const setuserstaterequest = (name, stationID, partnerKey) => {
-
-  console.log('Action: SET_USER_STATE_REQUEST');
+export const setCleanUsernameAction = (cleanUsername) => {
+  console.log('Action - setCleanUsernameAction called with:', cleanUsername);
   return {
-    type: 'SET_USER_STATE_REQUEST',
-    name,
-    stationID,
-    partnerKey,
-  }
-};
-
-
-
-export const setuserstatesuccessful = (setuserstatemessege) => {
-  console.log('Action: SET_USER_STATE_SUCCESSFUL');
-  return {
-    type: 'SET_USER_STATE_SUCCESSFUL',
-    payload: setuserstatemessege
-  };
-};
-
-export const setuserstatefails = error => {
-  console.log('Action: SET_USER_STATE_FAILS', { error });
-  return {
-    type: 'SET_USER_STATE_FAILS',
-    payload: error,
+    type: 'SET_CLEAN_USERNAME',
+    payload: cleanUsername,
   };
 };

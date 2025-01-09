@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -6,63 +6,45 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  TextInput,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '../components/Button';
-import LineargradientCom from '../components/LineargradientCom';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
-import Clock from '../components/Clock';
-import LinearGradient from 'react-native-linear-gradient';
-import { locationrequest, partnerrequest } from '../Redux/action/auth';
+
+// import { locationrequest, partnerrequest } from '../Redux/action/auth';
+
+import { connect } from 'react-redux';
+
+import PropTypes from 'prop-types'
+
+
 
 import { logoutrequest } from '../Redux/action/auth';
 
-import BarCode from '../components/BarCode';
-import LocationPartner from '../components/LocationPartner';
-import CustomHeader from '../components/CustomHeader';
 
 const windowHeight = Dimensions.get('window').height;
-const HomeScreen = ({ navigation }) => {
-  const { user, screen, error, userstate } = useSelector(state => state.auth);
-  const dispatch = useDispatch();
+const HomeScreen = ({ navigation, Auth: { user, screen }, logoutrequest }) => {
+  // const { user, screen } = useSelector(state => state.auth);
+  // const dispatch = useDispatch();
 
   const handlenavigation = screen => navigation.navigate(screen);
 
   console.log(screen);
 
-  handlesubmitone = () => {
-    navigation.navigate('Location');
-    dispatch(locationrequest());
-  };
+  // handlesubmitone = () => {
+  //   navigation.navigate('Location');
+  //   dispatch(locationrequest());
+  // };
 
-  handlesubmittwo = () => {
-    navigation.navigate('Partner');
-    dispatch(partnerrequest());
-  };
+  // handlesubmittwo = () => {
+  //   navigation.navigate('Partner');
+  //   dispatch(partnerrequest());
+  // };
 
   return (
     <ScrollView style={styles.formContainer}>
-      {/* <LocationPartner /> */}
-      {/* <CustomHeader /> */}
-
-      {/* <View style={styles.nameBar}>
-          <Text style={styles.text}>
-            <FontAwesome name="user" size={15} color="#23c4b4" solid={true} />{' '}
-            Hello,{' '}
-            <Text style={styles.bold}>
-              {user?.username.charAt(0).toUpperCase() + user.username.slice(1)}
-            </Text>
-          </Text>
-
-          <Text>
-            <FontAwesome name="clock" size={15} color="#23c4b4" solid={false} />
-            <Text> Time:</Text>
-            <Clock />
-          </Text>
-        </View> */}
-
       <View style={styles.menuContainer}>
         {screen?.length > 0 ? (
           <View style={styles.menuGrid}>
@@ -97,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
           value="Version"
         />
         <Button
-          onPress={() => dispatch(logoutrequest(user?.username))}
+          onPress={() => (logoutrequest(user?.username))}
           iconName="sign-out-alt"
           value="Logout"
         />
@@ -149,8 +131,6 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     borderRadius: 16,
-    //height: windowHeight * 0.6,
-    //marginBottom: 16,
   },
   nameBar: {
     flexDirection: 'row',
@@ -166,9 +146,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   menuButton: {
-    //height: 77,
-    // height: '35%',
-
     height: windowHeight * 0.1,
     width: '47%',
     margin: 4,
@@ -190,11 +167,9 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold',
   },
-  buttonContainer: {
 
-  },
   buttonmarrgen: {
-    height: windowHeight * 0.14
+    height: windowHeight * 0.14,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -230,4 +205,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+HomeScreen.propTypes = {
+
+  Auth: PropTypes.object.isRequired,
+  logoutrequest: PropTypes.func.isRequired,
+};
+
+
+const mapStateToProps = state => ({
+  Auth: state.Auth,
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutrequest },
+)(HomeScreen)

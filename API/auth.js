@@ -1,11 +1,30 @@
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../Services/apiService';
+import { useContext } from 'react';
+import { useAuth } from '../context/Authprovider';
+import { useSelector } from 'react-redux';
+import store from '../Redux/store/store';
 
-export const login = (username, pin) =>
-  api.post('mobile/LoginPin', {
+
+
+
+
+
+
+export const login = async (username, pin) => {
+  // Get the cleanUsername from localStorage or AsyncStorage
+  // const cleanUsername = await AsyncStorage.getItem('cleanUsername');
+  // const cleanUsername = useSelector(state => state.Auth)
+  const state = store.getState();
+  const cleanUsername = state?.Auth?.cleanUsername;
+  console.log("API login - Current cleanUsername in Redux:", cleanUsername);
+  console.log("cleanUsername getstate:", `'${cleanUsername}'`, typeof (cleanUsername))
+  return api.post('mobile/LoginPin', {
     username,
     pin,
-    azureUserName: 'ayesha.zahid',
+    azureUserName: cleanUsername
   });
+};
 
 export const changepin = (username, pin, newpin) =>
   api.post('mobile/ChangePin', {
@@ -30,14 +49,12 @@ export const userstate = username =>
 
 export const locationlist = () =>
   api.get('mobile/Locationlist', {
-    // username,
-    // azureUserName: 'ayesha.zahid',
+
   });
 
 export const partnerlist = () =>
   api.get('mobile/Partnerlist', {
-    // username,
-    // azureUserName: 'ayesha.zahid',
+
   });
 
 export const setuserstate = (username, stationID, partnerKey) =>

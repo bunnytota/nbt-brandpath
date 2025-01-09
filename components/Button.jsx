@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View, StyleSheet ,Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
 const Button = ({ onPress, isSubmitting, value, iconName }) => {

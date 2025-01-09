@@ -19,10 +19,13 @@ import LineargradientCom from '../components/LineargradientCom';
 import Button from '../components/Button';
 import LineButton from '../components/LineButton';
 import { useDispatch } from 'react-redux';
-import { locationlistrequest, partnerlistrequest } from '../Redux/action/auth';
-import { loginrequest, userstaterequest } from '../Redux/action/auth';
+import { locationlistrequest, partnerlistrequest, userstaterequest } from '../Redux/action/states';
+import { loginrequest } from '../Redux/action/auth';
 import SharedLayout from '../components/SharedLayout';
 import Textfield from '../components/TextField';
+
+import { useContext } from 'react';
+import { useAuth } from '../context/Authprovider';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -34,6 +37,9 @@ const schema = yup.object().shape({
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const { cleanUsername } = useAuth();
+
+  console.log("clean username in login: ", ` '${cleanUsername}'`)
 
   const [showkey, setShowkey] = useState(false);
 

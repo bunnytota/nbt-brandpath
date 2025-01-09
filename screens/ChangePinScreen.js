@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
+
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
+
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -65,20 +65,7 @@ const ChangePinScreen = ({ navigation }) => {
           onBlur={formik.handleBlur('name')}
         />
 
-        {/* <View style={styles.inputContainer}>
-          <LinearGradient
-            colors={['#0175b2', '#4b3d91']}
-            style={styles.inputIcon}>
-            <Icon name="person" size={23} color="#ffff" />
-          </LinearGradient>
 
-          <TextInput
-            placeholder="  Enter username"
-            onChangeText={formik.handleChange('name')}
-            onBlur={formik.handleBlur('name')}
-            value={formik.values.name}
-          />
-        </View> */}
         {formik.errors.name && formik.touched.name && (
           <Text style={styles.errorText}>{formik.errors.name}</Text>
         )}
@@ -174,9 +161,6 @@ const ChangePinScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // scrollContainer: {
-  //   height: '100%',
-  // },
 
   SharedLayout: {
     margin: 3,

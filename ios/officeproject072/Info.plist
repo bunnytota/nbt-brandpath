@@ -64,5 +64,22 @@
 		<string>Poppins-SemiBold.ttf</string>
 		<string>Poppins-Thin.ttf</string>
 	</array>
+
+<!-- for authh deep link -->
+
+
+  <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>officeproject072</string> <!-- Replace 'yourappname' with your app's custom scheme -->
+            </array>
+            <key>CFBundleURLName</key>
+            <string>auth</string> <!-- This can be any unique identifier -->
+        </dict>
+    </array>
+
+
 </dict>
-</plist>
+</plist> 
